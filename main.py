@@ -62,3 +62,5 @@ for name, key in FACILITIES.items():
         print(f"{name} → エラー: {e}")
 
 print("===== チェック終了 =====")
+
+print("th（日付列）数:", len(soup.find_all("th")))

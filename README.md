@@ -1,1 +1,0 @@
-# nishinomiya-reserve-check

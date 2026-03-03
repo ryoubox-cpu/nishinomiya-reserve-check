@@ -20,18 +20,15 @@ def check_facility(name, key):
 
     session = requests.Session()
 
-    # ① トップページ
     res = session.get(BASE_URL)
     res.encoding = "cp932"
 
-    # ② 施設選択
     payload1 = {
         "CheckMeisaiUniqKey": key
     }
     res2 = session.post(MULTISELECT_URL, data=payload1)
     res2.encoding = "cp932"
 
-    # ③ カレンダー取得（今月）
     today = datetime.today()
     payload2 = {
         "year": today.year,
@@ -42,14 +39,22 @@ def check_facility(name, key):
     res3.encoding = "cp932"
 
     html = res3.text
-
     soup = BeautifulSoup(html, "html.parser")
 
-    # 空き画像を探す
+    # 🔍 ここに追加
+    th_count = len(soup.find_all("th"))
+    print(f"{name} → th（日付列）数: {th_count}")
+
     ok_imgs = soup.find_all("img", src=lambda x: x and "icn_scche_ok.png" in x)
 
     return len(ok_imgs)
 
+    th_count = len(soup.find_all("th"))
+    print(f"{name} → th（日付列）数: {th_count}")
+
+    ok_imgs = soup.find_all("img", src=lambda x: x and "icn_scche_ok.png" in x)
+
+    return len(ok_imgs)
 
 # ===== 全施設チェック =====
 print("===== 全施設空きチェック開始 =====")
@@ -62,5 +67,3 @@ for name, key in FACILITIES.items():
         print(f"{name} → エラー: {e}")
 
 print("===== チェック終了 =====")
-
-print("th（日付列）数:", len(soup.find_all("th")))

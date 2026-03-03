@@ -29,6 +29,9 @@ def check_facility(name, key):
     res2 = session.post(MULTISELECT_URL, data=payload1)
     res2.encoding = "cp932"
 
+    print("施設選択後HTML長さ:", len(res2.text))
+    print(res2.text[:1000])
+
     today = datetime.today()
     payload2 = {
         "year": today.year,

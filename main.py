@@ -29,6 +29,17 @@ def check_facility(name, key):
     res2 = session.post(MULTISELECT_URL, data=payload1)
     res2.encoding = "cp932"
 
+    soup_top = BeautifulSoup(res.text, "html.parser")
+    hidden_inputs = soup_top.find_all("input", type="hidden")
+    
+    payload1 = {}
+    for h in hidden_inputs:
+        if h.get("name"):
+            payload1[h.get("name")] = h.get("value", "")
+            
+　　# 施設キーを追加
+    payload1["CheckMeisaiUniqKey"] = key
+
     print("施設選択後HTML長さ:", len(res2.text))
     print(res2.text[:1000])
 
